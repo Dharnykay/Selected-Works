@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Selected Works — Portfolio Gallery</title>
+    <!-- Tailwind CSS v3 with Plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Custom Configuration -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cream: {
+                50: "#fbf9f6",
+                100: "#f6f3ee",
+                200: "#ece7df",
+                300: "#ded7cb",
+                800: "#2c2925",
+                900: "#151413",
+              },
+            },
+            fontFamily: {
+              display: [
+                '"Cabinet Grotesk"',
+                '"Syne"',
+                '"Inter"',
+                "system-ui",
+                "sans-serif",
+              ],
+              mono: ['"JetBrains Mono"', '"Space Mono"', "monospace"],
+              sans: ['"Inter"', "system-ui", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Google Fonts for Editorial Aesthetics -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@800;900&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Core Layout Styles -->
+    <style data-purpose="custom-typography">
+      .display-heading {
+        font-family:
+          "Cabinet Grotesk",
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+        letter-spacing: -0.04em;
+        text-transform: uppercase;
+        font-weight: 900;
+      }
+      .meta-mono {
+        font-family: "JetBrains Mono", monospace;
+        letter-spacing: -0.01em;
+      }
+    </style>
+    <!-- Smooth Dynamic Expandable Showcase Transitions -->
+    <style data-purpose="gallery-transitions">
+      .gallery-card {
+        transition:
+          flex 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 0.45s ease,
+          filter 0.4s ease;
+        will-change: flex, transform, filter;
+      }
+      .gallery-card:not(.active) {
+        flex: 1 1 240px;
+        filter: brightness(0.9) contrast(0.96);
+        opacity: 0.88;
+      }
+      .gallery-card:not(.active):hover {
+        filter: brightness(0.98);
+        opacity: 0.96;
+      }
+      .gallery-card.active {
+        flex: 1.8 1 420px;
+        filter: brightness(1) contrast(1);
+        opacity: 1;
+        box-shadow:
+          0 25px 50px -12px rgba(21, 20, 19, 0.28),
+          0 0 0 1px rgba(21, 20, 19, 0.08);
+      }
+      /* Hide scrollbar for clean track presentation */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen flex items-center justify-center p-0 md:p-6 lg:p-10 font-sans antialiased selection:bg-neutral-900 selection:text-white bg-[#b84832]"
+  >
+    <!-- BEGIN: DesktopScreenWrapper -->
+    <!-- Outer artboard container replicating the presentation frame in reference image -->
+    <div
+      class="relative w-full max-w-[1440px] bg-[#f6f3ee] text-[#161514] shadow-2xl rounded-none md:rounded-2xl overflow-hidden flex flex-col justify-between min-h-[820px] md:min-h-[870px] border border-[#e8e2d8]"
+      data-purpose="portfolio-viewport"
+    >
+      <!-- Top Screen Header Meta Indicator -->
+      <div
+        class="px-8 md:px-14 pt-6 pb-2 flex justify-between items-center text-[11px] uppercase meta-mono text-neutral-400 select-none"
+        data-purpose="frame-breadcrumbs"
+      >
+        <span>(SELECTED WORKS SECTION)</span>
+        <span>(1440PX)</span>
+      </div>
+      <!-- BEGIN: MainHeader -->
+      <header class="px-8 md:px-14 pt-3 pb-5" data-purpose="section-header">
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-5 border-b border-[#dfd8cc]"
+        >
+          <!-- Primary Large Title -->
+          <h1
+            class="display-heading text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] leading-[0.9] text-neutral-900"
+          >
+            SELECTED PROJECTS
+          </h1>
+          <!-- Header Project Metrics & Instructions -->
+          <div class="text-left md:text-right meta-mono space-y-1">
+            <p
+              class="text-xs md:text-sm font-medium tracking-tight text-neutral-800"
+            >
+              (03) Featured Projects 2024 — 2026
+            </p>
+            <p class="text-[11px] md:text-xs text-neutral-500">
+              Hover or click to inspect project
+            </p>
+          </div>
+        </div>
+      </header>
+      <!-- END: MainHeader -->
+      <!-- BEGIN: GalleryStage -->
+      <main
+        class="flex-1 flex flex-col justify-center px-8 md:px-14 py-4 md:py-6"
+        data-purpose="gallery-showcase"
+      >
+        <!-- Dynamic Project Metadata Header (Tracks Active Card) -->
+        <div
+          class="min-h-[90px] flex flex-col justify-end mb-6 pl-1"
+          data-purpose="dynamic-info"
+          id="project-meta-container"
+        >
+          <span
+            class="meta-mono text-xs text-neutral-500 font-medium mb-1 block transition-all duration-300"
+            id="active-project-number"
+            >(01)</span
+          >
+          <h2
+            class="text-2xl md:text-3.5xl lg:text-4xl font-extrabold uppercase tracking-tight text-neutral-900 transition-all duration-300"
+            id="active-project-title"
+          >
+            PECULIAR GRACE BUSINESS HUB
+          </h2>
+          <p
+            class="meta-mono text-xs md:text-[13px] text-neutral-600 mt-1 transition-all duration-300"
+            id="active-project-subtitle"
+          >
+            Web Design &amp; Student Support Hub · FUOYE Verified
+          </p>
+        </div>
+        <!-- Horizontal 3-Project Showcase Stage -->
+        <div class="relative w-full" data-purpose="filmstrip-container">
+          <div
+            class="flex flex-col md:flex-row items-stretch gap-5 md:gap-6 overflow-hidden py-3 px-1"
+            data-purpose="cards-horizontal-list"
+            id="gallery-track"
+          >
+            <!-- Item 01: Peculiar Grace Business Hub -->
+            <article
+              class="gallery-card group relative cursor-pointer overflow-hidden rounded-[24px] bg-[#fbfbfb] border border-[#e4ded4] shadow-md h-[290px] sm:h-[340px] md:h-[430px] active"
+              data-index="0"
+              data-meta="Web Design &amp; Student Support Hub · FUOYE Verified"
+              data-num="(01)"
+              data-purpose="gallery-item"
+              data-title="PECULIAR GRACE BUSINESS HUB"
+            >
+              <img
+                alt="Peculiar Grace Business Hub - Responsive Web Design and Student Support Hub"
+                class="h-full w-full object-cover object-left md:object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHWSbiMTM9Hq8SkI4HoN2FfEQ00gaEUuhcj7kiTW6l9MRus1yK6Iboe9xbO8RZ5xJSNn5sCMxD_RWePlNgtrFJ-020NVd8_M2ZBda_xL36a54sQ-IFepEaVt7-DD33a3DkgeNGH2bEoucadvRbAXJ4H3IBwY0Hwuhi01R_ko9Wh0JNuACY4nCVUB-13PFd6AVtzQCjz-LGmwOsO0nkwTajFk76BW-Boqw_8GN88QVaYB8VaXYo5IUl"
+              />
+              <!-- Card Corner Badge -->
+              <div class="absolute top-4 left-4 z-10">
+                <span
+                  class="meta-mono text-[11px] font-semibold bg-neutral-900/80 backdrop-blur-md text-white px-3 py-1 rounded-full border border-white/10 shadow-sm"
+                  >02 / Identity System</span
+                >
+              </div>
+              <!-- Hover Overlay with subtle callout -->
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-5"
+              >
+                <div class="text-white">
+                  <p class="text-sm font-bold tracking-tight">
+                    Peculiar Grace Business Hub
+                  </p>
+                  <p class="text-[11px] meta-mono text-white/80">
+                    Responsive Web Design · FUOYE
+                  </p>
+                </div>
+                <span
+                  class="meta-mono text-[11px] font-semibold bg-neutral-900/80 backdrop-blur-md text-white px-3 py-1 rounded-full border border-white/10 shadow-sm"
+                  >02 / Identity System</span
+                >
+              </div>
+            </article>
+            <!-- Item 02: Ayobami Prints & Creative - Default Active -->
+            <article
+              class="gallery-card group relative cursor-pointer overflow-hidden rounded-[24px] bg-[#0c182a] border border-[#233550] shadow-2xl h-[290px] sm:h-[340px] md:h-[430px]"
+              data-index="1"
+              data-meta="Brand Identity &amp; Creative Print Production · Nationwide"
+              data-num="(02)"
+              data-purpose="gallery-item"
+              data-title="AYOBAMI PRINTS &amp; CREATIVE"
+            >
+              <img
+                alt="Ayobami Prints &amp; Creative Geometric Monogram Identity"
+                class="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBihAxZY0L7j_6XWeiOkp0I-bAGmU_wF71Sinjjx2CqEK13xdvF_zxn85GoKaXP1nXb3aqGbsGeRSlCmcxY5Rv8eL6zq7jzz71GYwPUj-kEme1hEuaELZZ3om-lUnRKeNr0aO_MyvlqKhiWnmumyjuWKd1Gyb6GckPdBK1dDlHyvfSPWg-Y2vJE0DiMgdzlWIkndxk5au2PKhP7SeroGzQ4Ad_GdEaqkueFctqoNo4SlUMfXlNTCOUa"
+              />
+              <!-- Card Corner Badge -->
+              <div class="absolute top-4 left-4 z-10">
+                <span
+                  class="meta-mono text-[11px] font-semibold bg-blue-950/90 backdrop-blur-md text-cyan-200 px-3 py-1 rounded-full border border-cyan-400/20 shadow-sm"
+                >
+                  02 / Identity System
+                </span>
+              </div>
+              <!-- Hover Overlay with subtle callout -->
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-neutral-950/85 via-neutral-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-5"
+              >
+                <div class="text-white">
+                  <p class="text-sm font-bold tracking-tight">
+                    Ayobami Prints &amp; Creative
+                  </p>
+                  <p class="text-[11px] meta-mono text-cyan-200/90">
+                    3D Geometric Monogram · Print Production
+                  </p>
+                </div>
+                <span
+                  class="meta-mono text-[11px] text-white bg-white/20 backdrop-blur-sm px-2.5 py-1 rounded-md"
+                  >Explore →</span
+                >
+              </div>
+            </article>
+            <!-- Item 03: Personal Portfolio Website -->
+            <article
+              class="gallery-card group relative cursor-pointer overflow-hidden rounded-[24px] bg-[#fbfbfb] border border-[#e4ded4] shadow-md h-[290px] sm:h-[340px] md:h-[430px]"
+              data-index="2"
+              data-meta="Technical Writing &amp; Interface Architecture · Kayode"
+              data-num="(03)"
+              data-purpose="gallery-item"
+              data-title="PERSONAL PORTFOLIO WEBSITE"
+            >
+              <img
+                alt="Kayode Personal Portfolio Website &amp; Technical Writing Showcase"
+                class="h-full w-full object-cover object-left md:object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwKYSIOZparxHLaRKRmtIQPE3A_vhVTwE3QCyzme40FP0V8AMdnylTqHT1-YyyL3Z7Y6p-Hbrh6AOWMpUw6A6FC6dJ5rP0_IjN6cDQMm79SjSlzkojMT26KyqVYFtsUsXZqJ5npm5GBwAPmOJYCZb0ATklGy6iwnpN-RS-2IGATSqbFJcPFI8Zge9aKumTZ0ur6a2yy3xttla2kSXskEKoJCuzVI8wjN9dKl-IUIwicn7m_c0vkQEf"
+              />
+              <!-- Card Corner Badge -->
+              <div class="absolute top-4 left-4 z-10">
+                <span
+                  class="meta-mono text-[11px] font-semibold bg-neutral-900/80 backdrop-blur-md text-white px-3 py-1 rounded-full border border-white/10 shadow-sm"
+                >
+                  03 / Portfolio &amp; Writing
+                </span>
+              </div>
+              <!-- Hover Overlay with subtle callout -->
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between p-5"
+              >
+                <div class="text-white">
+                  <p class="text-sm font-bold tracking-tight">
+                    Kayode Personal Portfolio
+                  </p>
+                  <p class="text-[11px] meta-mono text-white/80">
+                    Writing &amp; Interface Architecture
+                  </p>
+                </div>
+                <span
+                  class="meta-mono text-[11px] text-white bg-white/20 backdrop-blur-sm px-2.5 py-1 rounded-md"
+                  >Explore →</span
+                >
+              </div>
+            </article>
+          </div>
+        </div>
+      </main>
+      <!-- END: GalleryStage -->
+      <!-- BEGIN: FooterChrome -->
+      <footer
+        class="px-8 md:px-14 py-6 border-t border-[#dfd8cc] flex flex-col sm:flex-row items-center justify-between text-xs meta-mono text-neutral-600 gap-4"
+        data-purpose="footer-navigation"
+      >
+        <!-- Carousel Slider Progress Indicator for 3 Projects -->
+        <div
+          class="flex items-center space-x-2.5"
+          data-purpose="carousel-indicator"
+          id="dots-container"
+        >
+          <button
+            aria-label="Project 1"
+            class="indicator-dot h-2 rounded-full transition-all duration-300 hover:bg-neutral-400 w-8 bg-neutral-900"
+            data-dot="0"
+          ></button>
+          <button
+            aria-label="Project 2"
+            class="indicator-dot h-2 rounded-full transition-all duration-300 w-2 bg-neutral-300"
+            data-dot="1"
+          ></button>
+          <button
+            aria-label="Project 3"
+            class="indicator-dot h-2 rounded-full transition-all duration-300 hover:bg-neutral-400 w-2 bg-neutral-300"
+            data-dot="2"
+          ></button>
+        </div>
+        <!-- Navigation & Index Links -->
+        <div class="flex items-center space-x-6 tracking-wide">
+          <a
+            class="hover:text-black transition-colors font-medium text-neutral-900"
+            href="#index"
+            >INDEX [3]</a
+          >
+          <span class="text-neutral-400">/</span>
+          <a
+            class="hover:text-black transition-colors font-medium"
+            href="#about"
+            >ABOUT</a
+          >
+          <span class="text-neutral-400">/</span>
+          <a
+            class="hover:text-black transition-colors font-medium"
+            href="#contact"
+            >CONTACT</a
+          >
+        </div>
+      </footer>
+      <!-- END: FooterChrome -->
+    </div>
+    <!-- END: DesktopScreenWrapper -->
+    <!-- BEGIN: InteractiveScript -->
+    <script data-purpose="carousel-hover-interaction">
+      document.addEventListener("DOMContentLoaded", () => {
+        const cards = document.querySelectorAll(".gallery-card");
+        const dots = document.querySelectorAll(".indicator-dot");
+        const numEl = document.getElementById("active-project-number");
+        const titleEl = document.getElementById("active-project-title");
+        const metaEl = document.getElementById("active-project-subtitle");
+
+        function activateCard(card) {
+          const index = parseInt(card.getAttribute("data-index"), 10);
+
+          // Reset all cards
+          cards.forEach((c) => {
+            c.classList.remove("active");
+          });
+
+          // Activate selected card
+          card.classList.add("active");
+
+          // Update header text details
+          const num = card.getAttribute("data-num");
+          const title = card.getAttribute("data-title");
+          const meta = card.getAttribute("data-meta");
+
+          if (numEl && titleEl && metaEl) {
+            numEl.textContent = num;
+            titleEl.textContent = title;
+            metaEl.textContent = meta;
+          }
+
+          // Update indicator dots
+          dots.forEach((dot, dIndex) => {
+            if (dIndex === index) {
+              dot.classList.remove("w-2", "bg-neutral-300");
+              dot.classList.add("w-8", "bg-neutral-900");
+            } else {
+              dot.classList.remove("w-8", "bg-neutral-900");
+              dot.classList.add("w-2", "bg-neutral-300");
+            }
+          });
+        }
+
+        cards.forEach((card) => {
+          card.addEventListener("mouseenter", () => activateCard(card));
+          card.addEventListener("click", () => activateCard(card));
+        });
+
+        dots.forEach((dot) => {
+          dot.addEventListener("click", () => {
+            const idx = parseInt(dot.getAttribute("data-dot"), 10);
+            if (cards[idx]) {
+              activateCard(cards[idx]);
+            }
+          });
+        });
+      });
+    </script>
+    <!-- END: InteractiveScript -->
+  </body>
+</html>
